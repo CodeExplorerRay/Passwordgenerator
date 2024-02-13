@@ -175,20 +175,10 @@
         function copyPassword() {
             const passwordText = passwordDisplay.textContent;
 
-            // Create a temporary input element to copy the password text
-            const input = document.createElement('input');
-            input.value = passwordText;
-            document.body.appendChild(input);
-
-            // Select the text in the input and copy it to the clipboard
-            input.select();
-            document.execCommand('copy');
-
-            // Remove the temporary input
-            document.body.removeChild(input);
-
-            // Optionally, provide user feedback
-            alert('Password copied to clipboard!');
+            // Use the Clipboard API to copy the password to the clipboard
+            navigator.clipboard.writeText(passwordText)
+                .then(() => alert('Password copied to clipboard!'))
+                .catch(err => console.error('Unable to copy to clipboard', err));
         }
 
         // Initial password generation
