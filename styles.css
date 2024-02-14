@@ -67,7 +67,7 @@ input[type="range"] {
 #password-strength-bar {
     width: 80%;
     margin: 10px auto;
-    height: 1.5;
+    height: 1.5px;
     border-radius: 5px;
     background-color: #ddd;
     overflow: hidden;
