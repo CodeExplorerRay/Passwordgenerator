@@ -23,14 +23,17 @@ function generatePassword() {
 }
 
 function evaluatePasswordStrength(password) {
-    const strength = calculatePasswordStrength(password);
+    const strength = testPasswordStrength(password);
     updateStrengthIndicator(strength);
 }
 
-function calculatePasswordStrength(password) {
-    if (password.length >= 13 && password.length <= 64) {
+function testPasswordStrength(value) {
+    const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[=/\()%ยง!@#$%^&*])(?=.{8,})/;
+    const mediumRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/;
+
+    if (strongRegex.test(value)) {
         return "strong";
-    } else if (password.length >= 8 && password.length <= 12) {
+    } else if (mediumRegex.test(value)) {
         return "medium";
     } else {
         return "weak";
@@ -58,4 +61,50 @@ function copyPassword() {
     alert('Password copied to clipboard!');
 }
 
-generatePassword();
+// Remaining code from the new password strength validator
+$(document).ready(function() {
+    // hide/show password
+    $(".icon-wrapper").click(function() {
+        $(".toggle-password").toggleClass(".ion-eye ion-more");
+        var input = $($(".toggle-password").attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
+
+    // strength validation on keyup-event
+    $("#password-field").on("keyup", function() {
+        var val = $(this).val(),
+            color = testPasswordStrength(val);
+
+        styleStrengthLine(color, val);
+    });
+
+    // Remaining functions from the new password strength validator
+    function styleStrengthLine(color, value) {
+        $(".line")
+            .removeClass("bg-red bg-orange bg-green")
+            .addClass("bg-transparent");
+        
+        if (value) {
+            
+            if (color === "red") {
+                $(".line:nth-child(1)")
+                    .removeClass("bg-transparent")
+                    .addClass("bg-red");
+            } else if (color === "orange") {
+                $(".line:not(:last-of-type)")
+                    .removeClass("bg-transparent")
+                    .addClass("bg-orange");
+            } else if (color === "green") {
+                $(".line")
+                    .removeClass("bg-transparent")
+                    .addClass("bg-green");
+            }
+        }
+    }
+});
+
+generatePassword(); // Initial password generation
