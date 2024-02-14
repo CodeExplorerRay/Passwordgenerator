@@ -64,10 +64,10 @@ input[type="range"] {
     background-color: #2b6cb0;
 }
 
-#password-strength-bar {
+#password-strength-line {
     width: 80%;
     margin: 10px auto;
-    height: 10px;
+    height: 1.5;
     border-radius: 5px;
     background-color: #ddd;
     overflow: hidden;
